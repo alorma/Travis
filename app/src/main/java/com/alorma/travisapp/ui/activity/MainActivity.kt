@@ -2,7 +2,8 @@ package com.alorma.travisapp.ui.activity
 
 import android.os.Bundle
 import com.alorma.travisapp.R
-import com.alorma.travisapp.dagger.ApplicationComponent
+import com.alorma.travisapp.dagger.component.ApplicationComponent
+import com.alorma.travisapp.dagger.component.DaggerMainActivityComponent
 import com.alorma.travisapp.logger.AppLogger
 import javax.inject.Inject
 
@@ -24,6 +25,9 @@ class MainActivity : BaseActivity() {
     }
 
     override fun injectComponent(component: ApplicationComponent) {
-        component.inject(this)
+        DaggerMainActivityComponent.builder()
+                .applicationComponent(component)
+                .build()
+                .inject(this)
     }
 }

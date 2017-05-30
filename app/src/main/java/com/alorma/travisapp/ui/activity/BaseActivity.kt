@@ -3,7 +3,7 @@ package com.alorma.travisapp.ui.activity
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.alorma.travisapp.TravisApplication
-import com.alorma.travisapp.dagger.ApplicationComponent
+import com.alorma.travisapp.dagger.component.ApplicationComponent
 
 abstract class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
