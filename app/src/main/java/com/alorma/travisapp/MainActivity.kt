@@ -1,12 +1,24 @@
 package com.alorma.travisapp
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.alorma.travisapp.dagger.ApplicationComponent
+import com.alorma.travisapp.logger.AppLogger
+import com.alorma.travisapp.ui.activity.BaseActivity
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
+
+    @Inject
+    lateinit var appLoger: AppLogger
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        appLoger.i(localClassName, "onCreate()")
+    }
+
+    override fun injectComponent(component: ApplicationComponent) {
+        component.inject(this)
     }
 }

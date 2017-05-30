@@ -11,6 +11,10 @@ android:
   - extra
   - addon
 
+licenses:
+  - 'android-sdk-license-.+'
+  - 'google-gdk-license-.+'
+
 jobs:
   include:
     - stage: build
