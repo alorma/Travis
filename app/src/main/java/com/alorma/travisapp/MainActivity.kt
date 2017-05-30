@@ -9,13 +9,13 @@ import javax.inject.Inject
 class MainActivity : BaseActivity() {
 
     @Inject
-    lateinit var appLoger: AppLogger
+    lateinit var appLogger: AppLogger
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        appLoger.i(localClassName, "onCreate()")
+        appLogger.i(localClassName, "onCreate()")
     }
 
     override fun injectComponent(component: ApplicationComponent) {
