@@ -1,10 +1,14 @@
 package com.alorma.travisapp.data.account
 
 
-class AccountAgent {
+open class AccountAgent {
 
-    fun accountExist(): Boolean {
-        return false;
+    open fun accountExist(): Boolean {
+        return false
+    }
+
+    fun getAccount(): TravisAccount? {
+        return null
     }
 
 }

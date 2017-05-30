@@ -1,3 +1,3 @@
 package com.alorma.travisapp.data.account
 
-data class TravisAccount(val name: String)
+open class TravisAccount(val name: String)
