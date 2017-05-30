@@ -1,9 +1,11 @@
 package com.alorma.travisapp.logger
 
-class AppLogger() {
+import android.util.Log
 
-    fun i(tag: String, message: String) {
+class AppLogger {
 
+    fun i(tag: String = "TravisApp", message: String) {
+        Log.i(tag, message)
     }
 
 }

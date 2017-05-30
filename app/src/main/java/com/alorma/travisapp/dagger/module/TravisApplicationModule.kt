@@ -8,7 +8,7 @@ import dagger.Provides
 class TravisApplicationModule(val application: Application) {
 
     @Provides
-    fun provideLogger(): Application {
+    fun provideApplication(): Application {
         return application
     }
 

@@ -1,6 +1,6 @@
 package com.alorma.travisapp.dagger
 
-import com.alorma.travisapp.MainActivity
+import com.alorma.travisapp.ui.activity.MainActivity
 import com.alorma.travisapp.TravisApplication
 import com.alorma.travisapp.dagger.module.LoggerModule
 import com.alorma.travisapp.dagger.module.TravisApplicationModule

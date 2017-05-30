@@ -1,9 +1,9 @@
-package com.alorma.travisapp
+package com.alorma.travisapp.ui.activity
 
 import android.os.Bundle
+import com.alorma.travisapp.R
 import com.alorma.travisapp.dagger.ApplicationComponent
 import com.alorma.travisapp.logger.AppLogger
-import com.alorma.travisapp.ui.activity.BaseActivity
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
@@ -16,6 +16,11 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
 
         appLogger.i(localClassName, "onCreate()")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        appLogger.i(localClassName, "onStart()")
     }
 
     override fun injectComponent(component: ApplicationComponent) {
