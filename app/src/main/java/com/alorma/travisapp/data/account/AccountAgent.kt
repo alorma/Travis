@@ -7,7 +7,7 @@ open class AccountAgent {
         return false
     }
 
-    fun getAccount(): TravisAccount? {
+    open fun getAccount(): TravisAccount? {
         return null
     }
 

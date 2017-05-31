@@ -38,9 +38,12 @@ dependencies {
   testCompile 'junit:junit:4.12'
   testCompile "org.mockito:mockito-core:2.8.9"
   testCompile 'org.assertj:assertj-core:3.8.0'
+
+  /*
   testCompile ("com.nhaarman:mockito-kotlin:1.4.0") {
     exclude group: 'org.jetbrains.kotlin'
   }
+  */
 
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
