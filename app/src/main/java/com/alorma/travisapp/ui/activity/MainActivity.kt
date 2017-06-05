@@ -4,24 +4,31 @@ import android.os.Bundle
 import com.alorma.travisapp.R
 import com.alorma.travisapp.dagger.component.ApplicationComponent
 import com.alorma.travisapp.dagger.component.DaggerMainActivityComponent
-import com.alorma.travisapp.logger.AppLogger
+import com.alorma.travisapp.data.MainPresenter
+import com.alorma.travisapp.data.account.TravisAccount
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), MainPresenter.Screen {
 
     @Inject
-    lateinit var appLogger: AppLogger
+    lateinit var presenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        appLogger.i(localClassName, "onCreate()")
     }
 
     override fun onStart() {
         super.onStart()
-        appLogger.i(localClassName, "onStart()")
+
+        presenter.screen = this
+        presenter.start()
+    }
+
+    override fun onStop() {
+        presenter.stop()
+        super.onStop()
     }
 
     override fun injectComponent(component: ApplicationComponent) {
@@ -29,5 +36,9 @@ class MainActivity : BaseActivity() {
                 .applicationComponent(component)
                 .build()
                 .inject(this)
+    }
+
+    override fun showAccount(travisAccount: TravisAccount) {
+        account_name_textview.text = travisAccount.login
     }
 }

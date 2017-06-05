@@ -1,6 +1,7 @@
 package com.alorma.travisapp.dagger.module
 
 import android.content.Context
+import com.alorma.travisapp.data.account.DummyAccountTokenProvider
 import com.alorma.travisapp.data.network.TravisEndpoints
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
@@ -26,20 +27,21 @@ open class NetworkModule {
     @Singleton
     @Provides
     @Named("travis")
-    fun getTravisInterceptor(context: Context): Interceptor {
+    fun getTravisInterceptor(accountTokenProvider: DummyAccountTokenProvider): Interceptor {
         return Interceptor { chain ->
-            val request = chain.request().newBuilder()
+            val builder = chain.request().newBuilder()
                     .addHeader("User-Agent", "TravisApp")
                     .addHeader("Accept", "application/vnd.travis-ci.2+json")
-                    .build()
-            chain.proceed(request)
+
+            accountTokenProvider.getToken().let { builder.addHeader("Authorization", "token " + it) }
+            chain.proceed(builder.build())
         }
     }
 
     @Singleton
     @Provides
     open fun getOkClient(@Named("chuck") chuckInterceptor: Interceptor,
-                           @Named("travis") travisInterceptor: Interceptor): OkHttpClient {
+                         @Named("travis") travisInterceptor: Interceptor): OkHttpClient {
         return OkHttpClient.Builder()
                 .addInterceptor(chuckInterceptor)
                 .addInterceptor(travisInterceptor)
@@ -48,10 +50,10 @@ open class NetworkModule {
 
     @Singleton
     @Provides
-    fun getRetrofit(okhttpClient: OkHttpClient): Retrofit {
+    fun getRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
                 .baseUrl(ENDPOINT)
-                .client(okhttpClient)
+                .client(okHttpClient)
                 .build()
     }
 

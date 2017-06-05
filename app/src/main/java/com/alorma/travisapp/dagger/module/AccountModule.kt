@@ -1,17 +1,16 @@
 package com.alorma.travisapp.dagger.module
 
-import com.alorma.travisapp.data.account.AccountAgent
+import com.alorma.travisapp.data.account.AccountTokenProvider
+import com.alorma.travisapp.data.account.DummyAccountTokenProvider
 import dagger.Module
 import dagger.Provides
-import javax.inject.Singleton
 
 @Module
 class AccountModule {
 
-    @Singleton
     @Provides
-    fun providesAccountAgent(): AccountAgent {
-        return AccountAgent()
+    fun providesAccountTokenProvider(): AccountTokenProvider {
+        return DummyAccountTokenProvider()
     }
 
 }
