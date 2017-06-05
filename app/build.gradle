@@ -20,6 +20,10 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  compileOptions {
+    targetCompatibility 1.8
+    sourceCompatibility 1.8
+  }
 }
 
 dependencies {
@@ -39,11 +43,21 @@ dependencies {
   testCompile "org.mockito:mockito-core:2.8.9"
   testCompile 'org.assertj:assertj-core:3.8.0'
 
-  /*
-  testCompile ("com.nhaarman:mockito-kotlin:1.4.0") {
-    exclude group: 'org.jetbrains.kotlin'
+  compile 'com.squareup.retrofit2:retrofit:2.3.0'
+  compile 'com.squareup.okhttp3:okhttp:3.8.0'
+  debugCompile 'com.readystatesoftware.chuck:library:1.0.4'
+  releaseCompile 'com.readystatesoftware.chuck:library-no-op:1.0.4'
+
+  //WireMock
+  androidTestCompile("com.github.tomakehurst:wiremock:2.6.0") {
+    exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    exclude group: 'org.ow2.asm', module: 'asm'
+    exclude group: 'org.json', module: 'json'
   }
-  */
+  androidTestCompile 'com.github.fabioCollini:DaggerMock:0.6.6'
+  androidTestCompile('com.schibsted.spain:barista:1.3.0') {
+    exclude group: 'com.android.support'
+  }
 
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'

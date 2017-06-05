@@ -33,4 +33,8 @@ class TravisApplication : Application() {
     fun getComponent(): ApplicationComponent {
         return graph
     }
+
+    fun setComponent(component: ApplicationComponent) {
+        graph = component
+    }
 }

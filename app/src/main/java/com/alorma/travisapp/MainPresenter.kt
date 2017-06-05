@@ -9,7 +9,7 @@ class MainPresenter @Inject constructor(val accountAgent: AccountAgent) {
 
     fun start() {
         if (accountAgent.accountExist()) {
-            view.showAccountName(accountAgent.getAccount()?.name())
+            view.showAccountName(accountAgent.getAccount()?.name)
         } else {
             view.showNoAccount()
         }
@@ -17,7 +17,7 @@ class MainPresenter @Inject constructor(val accountAgent: AccountAgent) {
 
 
     interface View {
-        fun showAccountName(accountName: String?)
+        fun showAccountName(account: String?)
         fun showNoAccount()
     }
 }
