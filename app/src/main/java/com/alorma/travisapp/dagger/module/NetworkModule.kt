@@ -1,7 +1,7 @@
 package com.alorma.travisapp.dagger.module
 
 import android.content.Context
-import com.alorma.travisapp.data.account.DummyAccountTokenProvider
+import com.alorma.travisapp.data.account.AccountTokenProvider
 import com.alorma.travisapp.data.network.TravisEndpoints
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
@@ -27,7 +27,7 @@ open class NetworkModule {
     @Singleton
     @Provides
     @Named("travis")
-    fun getTravisInterceptor(accountTokenProvider: DummyAccountTokenProvider): Interceptor {
+    fun getTravisInterceptor(accountTokenProvider: AccountTokenProvider): Interceptor {
         return Interceptor { chain ->
             val builder = chain.request().newBuilder()
                     .addHeader("User-Agent", "TravisApp")

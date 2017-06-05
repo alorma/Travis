@@ -20,16 +20,13 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
-  compileOptions {
-    targetCompatibility 1.8
-    sourceCompatibility 1.8
-  }
 }
 
 dependencies {
   compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
   compile "org.jetbrains.anko:anko:$anko_version"
 
+  //noinspection GradleCompatible
   compile 'com.android.support:appcompat-v7:25.3.1'
   compile 'com.android.support.constraint:constraint-layout:1.0.2'
 

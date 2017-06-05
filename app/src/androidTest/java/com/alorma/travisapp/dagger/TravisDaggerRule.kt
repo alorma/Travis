@@ -9,6 +9,10 @@ import it.cosenonjaviste.daggermock.DaggerMockRule
 class TravisDaggerRule(networkModule: NetworkModule)
     : DaggerMockRule<ApplicationComponent>(ApplicationComponent::class.java, networkModule) {
 
+    init {
+        set({ c -> getApp().setComponent(c) })
+    }
+
     fun getApp(): TravisApplication {
         return InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as TravisApplication
     }
