@@ -1,33 +1,17 @@
 package com.alorma.travisapp.dagger.module
 
-import android.R.attr.port
 import android.support.test.espresso.IdlingResource
+import android.support.test.espresso.core.deps.dagger.Provides
 import android.support.test.espresso.idling.CountingIdlingResource
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import okhttp3.Request
 
-
-class TestNetworkModule : NetworkModule() {
-
-    private val SCHEME = "http"
-    private val HOST = "localhost"
-
+open class TestNetworkModule(val port: Int) : NetworkModule() {
     private val idlingResource = CountingIdlingResource("OkHttpClient")
 
     fun getTestInterceptor(): Interceptor {
         return Interceptor { chain ->
-            val requestBuilder = chain.request().newBuilder()
-
-            val newUrl = chain.request().url().newBuilder()
-                    .scheme(SCHEME)
-                    .host(HOST)
-                    .port(port)
-                    .build()
-
-            val request = requestBuilder.url(newUrl).build()
-
-            executeIdle(ExecutorImpl(chain, request))
+            executeIdle(ExecutorImpl(chain, port))
         }
     }
 
@@ -46,20 +30,36 @@ class TestNetworkModule : NetworkModule() {
         idlingResource.decrement()
     }
 
-    class ExecutorImpl(val chain: Interceptor.Chain, val request: Request)
+    class ExecutorImpl(val chain: Interceptor.Chain, val port: Int)
         : TestNetworkModule.Executor<okhttp3.Response> {
+
+        private val SCHEME = "http"
+        private val HOST = "localhost"
+
         override fun execute(): okhttp3.Response {
+            val requestBuilder = chain.request().newBuilder()
+
+            val newUrl = chain.request().url().newBuilder()
+                    .scheme(SCHEME)
+                    .host(HOST)
+                    .port(port)
+                    .build()
+
+            val request = requestBuilder.url(newUrl).build()
+
             return chain.proceed(request)
         }
     }
 
-    interface Executor<R> {
+    interface Executor<out R> {
         fun execute(): R
     }
 
+    @Provides
     override fun getOkClient(chuckInterceptor: Interceptor, travisInterceptor: Interceptor): OkHttpClient {
-        return super.getOkClient(chuckInterceptor, travisInterceptor).newBuilder()
+        return OkHttpClient.Builder()
                 .addInterceptor(getTestInterceptor())
+                .addInterceptor(chuckInterceptor)
                 .build()
     }
 

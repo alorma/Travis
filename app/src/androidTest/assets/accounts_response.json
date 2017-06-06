@@ -1,0 +1,25 @@
+{
+  "accounts": [
+    {
+      "id": 85592,
+      "name": "Test User name",
+      "login": "testuser",
+      "type": "user",
+      "repos_count": 65
+    },
+    {
+      "id": 135109,
+      "name": "Organization 0",
+      "login": "Organization0",
+      "type": "organization",
+      "repos_count": 3
+    },
+    {
+      "id": 123406,
+      "name": "Organization 1",
+      "login": "Organization1",
+      "type": "organization",
+      "repos_count": 6
+    }
+  ]
+}

@@ -8,20 +8,20 @@ import dagger.Module
 import dagger.Provides
 
 @Module
-class TravisApplicationModule(val application: Application) {
+open class TravisApplicationModule(val application: Application) {
 
     @Provides
-    fun provideApplication(): Application {
+    open fun provideApplication(): Application {
         return application
     }
 
     @Provides
-    fun providesContext(): Context {
+    open fun providesContext(): Context {
         return application
     }
 
     @Provides
-    fun providesAccountTokenProvider(): AccountTokenProvider {
+    open fun providesAccountTokenProvider(): AccountTokenProvider {
         return DummyAccountTokenProvider()
     }
 
