@@ -6,6 +6,7 @@ import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock.*
 
 class AccountStubs(val wireMockServer: WireMockServer) {
+
     fun givenValidAccountsResponse() {
         val request = get(urlPathEqualTo("/accounts"))
 

@@ -46,6 +46,9 @@ dependencies {
 
   testCompile "org.mockito:mockito-core:2.8.9"
   androidTestCompile "org.mockito:mockito-android:2.8.9"
+  testCompile ("com.nhaarman:mockito-kotlin:1.5.0") {
+    exclude group: 'org.jetbrains.kotlin'
+  }
 
   compile 'com.squareup.retrofit2:retrofit:2.3.0'
   compile 'com.squareup.okhttp3:okhttp:3.8.0'

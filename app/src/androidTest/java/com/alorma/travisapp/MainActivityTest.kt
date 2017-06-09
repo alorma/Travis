@@ -15,10 +15,17 @@ class MainActivityTest {
 
     val stubs: AccountStubs = AccountStubs(setup.getWireMockServer())
 
-    @Test fun showAccountData_whenTokenIsValid() {
+    @Test fun showAccountName_whenTokenIsValid() {
         stubs.givenValidAccountsResponse()
         activityTestRule.launchActivity(null)
 
         assertDisplayed("testuser")
+    }
+
+    @Test fun showAccountReposNum_whenTokenIsValid() {
+        stubs.givenValidAccountsResponse()
+        activityTestRule.launchActivity(null)
+
+        assertDisplayed("65")
     }
 }
