@@ -8,7 +8,7 @@ import com.alorma.travisapp.R
 import com.alorma.travisapp.data.repos.TravisRepo
 import kotlinx.android.synthetic.main.row_repo.view.*
 
-class ReposAdpter(val inflater: LayoutInflater) : RecyclerView.Adapter<ReposAdpter.Holder>() {
+class ReposAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<ReposAdapter.Holder>() {
 
     val repos: MutableList<TravisRepo> = mutableListOf()
 

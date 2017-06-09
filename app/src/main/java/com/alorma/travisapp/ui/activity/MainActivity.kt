@@ -8,7 +8,7 @@ import com.alorma.travisapp.dagger.component.DaggerMainActivityComponent
 import com.alorma.travisapp.dagger.module.MainActivityModule
 import com.alorma.travisapp.data.MainPresenter
 import com.alorma.travisapp.data.repos.TravisRepo
-import com.alorma.travisapp.ui.adapter.ReposAdpter
+import com.alorma.travisapp.ui.adapter.ReposAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
@@ -18,7 +18,7 @@ class MainActivity : BaseActivity(), MainPresenter.Screen {
     lateinit var presenter: MainPresenter
 
     @Inject
-    lateinit var adapter: ReposAdpter
+    lateinit var adapter: ReposAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import com.alorma.travisapp.dagger.ActivityScope
 import com.alorma.travisapp.ui.activity.MainActivity
-import com.alorma.travisapp.ui.adapter.ReposAdpter
+import com.alorma.travisapp.ui.adapter.ReposAdapter
 import dagger.Module
 import dagger.Provides
 
@@ -31,8 +31,8 @@ class MainActivityModule(val activity: MainActivity) {
 
     @Provides
     @ActivityScope
-    fun getRepo(inflater: LayoutInflater): ReposAdpter {
-        return ReposAdpter(inflater)
+    fun getRepo(inflater: LayoutInflater): ReposAdapter {
+        return ReposAdapter(inflater)
     }
 
 

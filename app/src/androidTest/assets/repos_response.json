@@ -1,0 +1,46 @@
+{
+  "repos": [
+    {
+      "id": 13759086,
+      "slug": "alorma/build_stages_test",
+      "description": null,
+      "last_build_id": 239295878,
+      "last_build_number": "18",
+      "last_build_state": "passed",
+      "last_build_duration": 99,
+      "last_build_language": null,
+      "last_build_started_at": "2017-06-04T12:55:45Z",
+      "last_build_finished_at": "2017-06-04T12:57:26Z",
+      "active": true,
+      "github_language": null
+    },
+    {
+      "id": 13692614,
+      "slug": "alorma/Travis",
+      "description": null,
+      "last_build_id": 241288058,
+      "last_build_number": "14",
+      "last_build_state": "failed",
+      "last_build_duration": 2230,
+      "last_build_language": null,
+      "last_build_started_at": "2017-06-09T17:46:49Z",
+      "last_build_finished_at": "2017-06-09T18:24:06Z",
+      "active": true,
+      "github_language": null
+    },
+    {
+      "id": 10883394,
+      "slug": "alorma/TravisTagsAutoDeploy",
+      "description": null,
+      "last_build_id": 175056445,
+      "last_build_number": "18",
+      "last_build_state": "failed",
+      "last_build_duration": 24,
+      "last_build_language": null,
+      "last_build_started_at": "2016-11-11T12:34:34Z",
+      "last_build_finished_at": "2016-11-11T12:34:58Z",
+      "active": false,
+      "github_language": null
+    }
+  ]
+}
