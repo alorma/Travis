@@ -1,12 +1,13 @@
 package com.alorma.travisapp.data
 
+import android.arch.lifecycle.LiveData
 import com.alorma.travisapp.data.account.GetAccountDataUseCase
 import com.alorma.travisapp.data.account.TravisAccount
+import com.alorma.travisapp.data.live.AccountLiveData
 import com.alorma.travisapp.data.repos.GetAccountReposUseCase
 import com.alorma.travisapp.data.repos.TravisRepo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -14,10 +15,13 @@ import javax.inject.Inject
 class MainPresenter @Inject constructor(val accountDataUseCase: GetAccountDataUseCase,
                                         val accountRepoUseCase: GetAccountReposUseCase) {
 
+    var travisAccountLiveData: AccountLiveData? = null
+
     var screen: Screen? = null
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    fun start() {
+    fun start(accountLiveData: AccountLiveData) {
+        travisAccountLiveData = accountLiveData
         val disposable = accountDataUseCase.getAccount()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -27,8 +31,7 @@ class MainPresenter @Inject constructor(val accountDataUseCase: GetAccountDataUs
     }
 
     fun onTravisAccount(travisAccount: TravisAccount) {
-        screen?.showAccount(travisAccount.login, travisAccount.reposCount)
-
+        travisAccountLiveData?.addValue(travisAccount)
         loadRepos(travisAccount.login)
     }
 
@@ -55,7 +58,6 @@ class MainPresenter @Inject constructor(val accountDataUseCase: GetAccountDataUs
     }
 
     interface Screen {
-        fun showAccount(login: String, reposNumber: Int)
         fun showRepos(repos: List<TravisRepo>)
     }
 }

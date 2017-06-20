@@ -1,5 +1,6 @@
 package com.alorma.travisapp.ui.activity
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.alorma.travisapp.R
@@ -7,6 +8,7 @@ import com.alorma.travisapp.dagger.component.ApplicationComponent
 import com.alorma.travisapp.dagger.component.DaggerMainActivityComponent
 import com.alorma.travisapp.dagger.module.MainActivityModule
 import com.alorma.travisapp.data.MainPresenter
+import com.alorma.travisapp.data.live.AccountLiveData
 import com.alorma.travisapp.data.repos.TravisRepo
 import com.alorma.travisapp.ui.adapter.ReposAdapter
 import kotlinx.android.synthetic.main.activity_main.*
@@ -20,11 +22,22 @@ class MainActivity : BaseActivity(), MainPresenter.Screen {
     @Inject
     lateinit var adapter: ReposAdapter
 
+    val accountLiveData = AccountLiveData()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        setupData()
+
         setupRecyclerView()
+    }
+
+    private fun setupData() {
+        accountLiveData.observe(this, Observer { t ->
+            account_name_textview.text = t?.login
+            account_repos_count_textview.text = t?.reposCount.toString()
+        })
     }
 
     private fun setupRecyclerView() {
@@ -36,7 +49,7 @@ class MainActivity : BaseActivity(), MainPresenter.Screen {
         super.onStart()
 
         presenter.screen = this
-        presenter.start()
+        presenter.start(accountLiveData)
     }
 
     override fun onStop() {
@@ -50,11 +63,6 @@ class MainActivity : BaseActivity(), MainPresenter.Screen {
                 .mainActivityModule(MainActivityModule(this))
                 .build()
                 .inject(this)
-    }
-
-    override fun showAccount(login: String, reposNumber: Int) {
-        account_name_textview.text = login
-        account_repos_count_textview.text = reposNumber.toString()
     }
 
     override fun showRepos(repos: List<TravisRepo>) {
