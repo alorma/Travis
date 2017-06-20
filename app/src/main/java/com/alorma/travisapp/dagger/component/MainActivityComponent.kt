@@ -1,12 +1,11 @@
 package com.alorma.travisapp.dagger.component
 
 import com.alorma.travisapp.dagger.ActivityScope
-import com.alorma.travisapp.dagger.module.MainActivityModule
-import com.alorma.travisapp.ui.activity.MainActivity
+import com.alorma.travisapp.data.viewmodel.TravisBasicDataViewModel
 import dagger.Component
 
 @ActivityScope
-@Component(dependencies = arrayOf(ApplicationComponent::class), modules = arrayOf(MainActivityModule::class))
+@Component(dependencies = arrayOf(ApplicationComponent::class))
 interface MainActivityComponent {
-    fun inject(mainActivity: MainActivity)
+    fun inject(viewModel: TravisBasicDataViewModel)
 }

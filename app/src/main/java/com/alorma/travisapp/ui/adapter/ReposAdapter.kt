@@ -27,8 +27,10 @@ class ReposAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<ReposAda
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
-    fun addAll(repos: Collection<TravisRepo>) {
-        this.repos.addAll(repos)
-        notifyDataSetChanged()
+    fun addAll(repos: Collection<TravisRepo>?) {
+        if (repos != null) {
+            this.repos.addAll(repos)
+            notifyDataSetChanged()
+        }
     }
 }
