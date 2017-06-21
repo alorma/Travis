@@ -1,8 +1,9 @@
 package com.alorma.travisapp.data.viewmodel
 
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import com.alorma.travisapp.data.account.GetAccountDataUseCase
 import com.alorma.travisapp.data.account.TravisAccount
 import com.alorma.travisapp.data.repos.GetAccountReposUseCase
@@ -12,7 +13,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class TravisBasicDataViewModel : ViewModel() {
+class TravisBasicDataViewModel(app: Application) : AndroidViewModel(app) {
 
     @Inject
     lateinit var accountDataUseCase: GetAccountDataUseCase
