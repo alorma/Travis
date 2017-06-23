@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import com.alorma.travisapp.R
 import com.alorma.travisapp.dagger.component.DaggerMainActivityComponent
 import com.alorma.travisapp.dagger.component.MainActivityComponent
+import com.alorma.travisapp.data.account.TravisAccount
 import com.alorma.travisapp.data.extension.appComponent
 import com.alorma.travisapp.data.viewmodel.TravisBasicDataViewModel
 import com.alorma.travisapp.ui.adapter.ReposAdapter
@@ -41,8 +42,9 @@ class MainActivity : BaseActivity() {
 
     private fun setupData() {
         viewModel.getTravisAccount().observe(this, Observer {
-            account_name_textview.text = it?.login
-            account_repos_count_textview.text = it?.reposCount.toString()
+            if (it != null) {
+                setAccount(it)
+            }
         })
 
         viewModel.getTravisRepos().observe(this, Observer {
@@ -52,6 +54,10 @@ class MainActivity : BaseActivity() {
         viewModel.getErrorData().observe(this, Observer {
 
         })
+    }
+
+    private fun setAccount(it: TravisAccount) {
+        toolbar.title = it.login + it.reposCount.toString()
     }
 
     private fun setupRecyclerView() {

@@ -64,7 +64,8 @@ class TravisBasicDataViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     private fun onReposLoaded(list: List<TravisRepo>) {
-        reposData.postValue(list)
+        val listSorted = list.sortedWith(compareByDescending<TravisRepo>({ it.active }))
+        reposData.postValue(listSorted)
     }
 
     private fun onError(t: Throwable?) {

@@ -4,9 +4,10 @@
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 
-  <TextView
+  <Switch
       android:layout_width="match_parent"
-      android:layout_height="wrap_content"
+      android:layout_height="?actionBarSize"
+      android:padding="16dp"
       android:id="@+id/textRepoName"/>
 
 </LinearLayout>
