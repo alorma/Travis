@@ -57,7 +57,9 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setAccount(it: TravisAccount) {
-        toolbar.title = it.login + it.reposCount.toString()
+        toolbar.title = it.login
+        val countRepos = it.reposCount.toString()
+        toolbar.subtitle = "Repos: $countRepos"
     }
 
     private fun setupRecyclerView() {
