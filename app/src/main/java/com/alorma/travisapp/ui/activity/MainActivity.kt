@@ -5,17 +5,18 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.widget.Toast
 import com.alorma.travisapp.R
 import com.alorma.travisapp.dagger.component.DaggerMainActivityComponent
 import com.alorma.travisapp.dagger.component.MainActivityComponent
 import com.alorma.travisapp.data.account.TravisAccount
 import com.alorma.travisapp.data.extension.appComponent
+import com.alorma.travisapp.data.repos.TravisRepo
 import com.alorma.travisapp.data.viewmodel.TravisBasicDataViewModel
 import com.alorma.travisapp.ui.adapter.ReposAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : BaseActivity() {
-
+class MainActivity : BaseActivity(), ReposAdapter.Callback {
     val component: MainActivityComponent by lazy {
         DaggerMainActivityComponent.builder()
                 .applicationComponent(appComponent())
@@ -65,5 +66,15 @@ class MainActivity : BaseActivity() {
     private fun setupRecyclerView() {
         recyclerRepos.layoutManager = LinearLayoutManager(this)
         recyclerRepos.adapter = adapter
+        adapter.callback = this
+    }
+
+    override fun repoSelected(travisRepo: TravisRepo) {
+        val slug = travisRepo.slug
+        Toast.makeText(this, "Repo: $slug", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun repoActiveStateChanged(travisRepos: TravisRepo, active: Boolean) {
+
     }
 }
