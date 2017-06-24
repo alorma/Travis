@@ -70,8 +70,7 @@ class MainActivity : BaseActivity(), ReposAdapter.Callback {
     }
 
     override fun repoSelected(travisRepo: TravisRepo) {
-        startActivity<RepoBuildActivity>(RepoBuildActivity.Extras.EXTRA_ID to travisRepo.id,
-                RepoBuildActivity.Extras.EXTRA_SLUG to travisRepo.slug)
+        startActivity<RepoBuildActivity>(RepoBuildActivity.Extras.EXTRA_SLUG to travisRepo.slug)
     }
 
     override fun repoActiveStateChanged(travisRepos: TravisRepo, active: Boolean) {

@@ -29,14 +29,13 @@ class RepoBuildActivity : BaseActivity() {
         setContentView(R.layout.activity_repo_builds)
 
         if (intent.extras != null) {
-            val repoId = intent.extras.getInt(Extras.EXTRA_ID)
+            component.inject(viewModel)
+
             val repoSlug = intent.extras.getString(Extras.EXTRA_SLUG)
 
             toolbar.title = repoSlug
 
-            component.inject(viewModel)
-
-            viewModel.loadBuild(repoId).observe(this, Observer {
+            viewModel.loadBuild(repoSlug).observe(this, Observer {
                 if (it != null) {
                     showResult(it)
                 }
@@ -50,7 +49,6 @@ class RepoBuildActivity : BaseActivity() {
     }
 
     object Extras {
-        val EXTRA_ID = "extra_id"
         val EXTRA_SLUG = "extra_slug"
     }
 }
