@@ -8,6 +8,8 @@ import android.widget.Switch
 import android.widget.TextView
 import com.alorma.travisapp.R
 import com.alorma.travisapp.data.repos.TravisRepo
+import com.alorma.travisapp.ui.gone
+import com.alorma.travisapp.ui.visible
 import kotlinx.android.synthetic.main.row_repo.view.*
 
 class ReposAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<ReposAdapter.Holder>() {
@@ -31,11 +33,19 @@ class ReposAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<ReposAda
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val textRepoName: TextView? = itemView.textRepoName
+        val textRepoLastBuildState: TextView? = itemView.textRepoLastBuildState
         val textRepoIsActive: Switch? = itemView.textRepoIsActive
 
         fun populate(repo: TravisRepo, callback: Callback?) {
             textRepoName?.text = repo.slug
             textRepoIsActive?.isChecked = repo.active
+            if (repo.active) {
+                textRepoLastBuildState?.text = repo.lastBuildState
+                textRepoLastBuildState?.visible()
+            } else {
+                textRepoLastBuildState?.text = ""
+                textRepoLastBuildState?.gone()
+            }
 
             itemView.setOnClickListener({
                 callback?.repoSelected(repo)

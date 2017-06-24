@@ -5,7 +5,6 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
-import android.widget.Toast
 import com.alorma.travisapp.R
 import com.alorma.travisapp.dagger.component.DaggerMainActivityComponent
 import com.alorma.travisapp.dagger.component.MainActivityComponent
@@ -15,6 +14,7 @@ import com.alorma.travisapp.data.repos.TravisRepo
 import com.alorma.travisapp.data.viewmodel.TravisBasicDataViewModel
 import com.alorma.travisapp.ui.adapter.ReposAdapter
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 
 class MainActivity : BaseActivity(), ReposAdapter.Callback {
     val component: MainActivityComponent by lazy {
@@ -70,8 +70,8 @@ class MainActivity : BaseActivity(), ReposAdapter.Callback {
     }
 
     override fun repoSelected(travisRepo: TravisRepo) {
-        val slug = travisRepo.slug
-        Toast.makeText(this, "Repo: $slug", Toast.LENGTH_SHORT).show()
+        startActivity<RepoBuildActivity>(RepoBuildActivity.Extras.EXTRA_ID to travisRepo.id,
+                RepoBuildActivity.Extras.EXTRA_SLUG to travisRepo.slug)
     }
 
     override fun repoActiveStateChanged(travisRepos: TravisRepo, active: Boolean) {

@@ -6,7 +6,8 @@ class TravisRepo(val id: Int,
                  val slug: String,
                  val description: String,
                  val active: Boolean,
-                 @SerializedName("last_build_number") val lastBuildNumber: String)
+                 @SerializedName("last_build_number") val lastBuildNumber: String,
+                 @SerializedName("last_build_state") val lastBuildState: String)
     /*
     "id": 82,
     "slug": "sinatra/sinatra",
