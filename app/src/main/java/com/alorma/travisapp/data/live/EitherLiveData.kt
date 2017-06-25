@@ -1,11 +1,11 @@
 package com.alorma.travisapp.data.live
 
 import android.arch.lifecycle.LifecycleOwner
-import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Observer
 import org.funktionale.either.Either
 
-class EitherLiveData<T> : LiveData<Either<Throwable, T>>() {
+class EitherLiveData<T> : MutableLiveData<Either<Throwable, T>>() {
 
     fun observe(owner: LifecycleOwner?,
                 successFunction: (t: T) -> Unit?,
