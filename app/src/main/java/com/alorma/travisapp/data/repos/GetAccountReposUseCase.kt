@@ -7,6 +7,6 @@ open class GetAccountReposUseCase @Inject constructor(
         val repository: GetAccountReposRepository) {
 
     fun getRepos(login: String): Observable<List<TravisRepo>> {
-        return repository.getRepos(login).map { it.filter { it.active } }
+        return repository.getRepos(login).map { it.sortedWith(compareByDescending { it.active }) }
     }
 }
