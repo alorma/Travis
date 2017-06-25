@@ -4,10 +4,10 @@ import io.reactivex.Single
 import javax.inject.Inject
 
 open class GetAccountDataUseCase @Inject constructor(
-        val accountDataSource: GetAccountDataSource) {
+        val accountRepository: GetAccountRepository) {
 
     open fun getAccount(): Single<TravisAccount> {
-        return accountDataSource.getAccount()
+        return accountRepository.getAccount()
     }
 
 }

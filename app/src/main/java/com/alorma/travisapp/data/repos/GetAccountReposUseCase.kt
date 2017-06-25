@@ -1,15 +1,12 @@
 package com.alorma.travisapp.data.repos
 
-import io.reactivex.Single
+import io.reactivex.Observable
 import javax.inject.Inject
 
 open class GetAccountReposUseCase @Inject constructor(
-        val getReposDataSource: GetReposDataSource) {
+        val repository: GetAccountReposRepository) {
 
-    fun getRepos(login: String): Single<List<TravisRepo>> {
-        return getReposDataSource.getRepos(ReposSearch(login))
-                .toList()
-                .map { it.sortedWith(compareByDescending<TravisRepo>({ it.active })) }
+    fun getRepos(login: String): Observable<List<TravisRepo>> {
+        return repository.getRepos(login).map { it.filter { it.active } }
     }
-
 }

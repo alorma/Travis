@@ -12,9 +12,11 @@ import com.alorma.travisapp.data.account.TravisAccount
 import com.alorma.travisapp.data.extension.appComponent
 import com.alorma.travisapp.data.repos.TravisRepo
 import com.alorma.travisapp.data.viewmodel.TravisBasicDataViewModel
+import com.alorma.travisapp.logger.ExceptionTracker
 import com.alorma.travisapp.ui.adapter.ReposAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.startActivity
+import javax.inject.Inject
 
 class MainActivity : BaseActivity(), ReposAdapter.Callback {
     val component: MainActivityComponent by lazy {
@@ -31,10 +33,14 @@ class MainActivity : BaseActivity(), ReposAdapter.Callback {
         ViewModelProviders.of(this).get(TravisBasicDataViewModel::class.java)
     }
 
+    @Inject
+    lateinit var exceptionTracker: ExceptionTracker
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        component.inject(this)
         component.inject(viewModel)
 
         setupRecyclerView()
@@ -44,15 +50,23 @@ class MainActivity : BaseActivity(), ReposAdapter.Callback {
     private fun setupData() {
         viewModel.getTravisAccount().observe(this, {
             setAccount(it)
-        }, { onError(it) })
+        }, {
+            showNoAccount()
+            onError(it)
+
+        })
 
         viewModel.getTravisRepos().observe(this, {
             adapter.addAll(it)
         }, { onError(it) })
     }
 
+    private fun showNoAccount() {
+        Toast.makeText(this, "No account", Toast.LENGTH_SHORT).show()
+    }
+
     fun onError(t: Throwable) {
-        Toast.makeText(this, "Show error: " + t.message, Toast.LENGTH_SHORT).show()
+        exceptionTracker.track(t)
     }
 
     private fun setAccount(it: TravisAccount) {

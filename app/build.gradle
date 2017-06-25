@@ -66,10 +66,9 @@ dependencies {
   implementation "com.squareup.retrofit2:converter-gson:${retrofit2}"
   implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofit2}"
 
-
   def chuck = '1.0.4'
-  debugCompile "com.readystatesoftware.chuck:library:${chuck}"
-  releaseCompile "com.readystatesoftware.chuck:library-no-op:${chuck}"
+  debugImplementation "com.readystatesoftware.chuck:library:${chuck}"
+  releaseImplementation "com.readystatesoftware.chuck:library-no-op:${chuck}"
 
   //WireMock
   androidTestImplementation("com.github.tomakehurst:wiremock:2.5.0") {
@@ -93,4 +92,8 @@ dependencies {
   implementation "android.arch.lifecycle:runtime:${arch}"
   implementation "android.arch.lifecycle:extensions:${arch}"
   kapt "android.arch.lifecycle:compiler:${arch}"
+
+  def room = '1.0.0-alpha3'
+  implementation "android.arch.persistence.room:runtime:${room}"
+  kapt "android.arch.persistence.room:compiler:${room}"
 }

@@ -1,5 +1,6 @@
 package com.alorma.travisapp.ui.adapter
 
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,7 @@ class ReposAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<ReposAda
 
     var callback: Callback? = null
         set
-    val repos: MutableList<TravisRepo> = mutableListOf()
+    var repos: MutableList<TravisRepo> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): Holder {
         return Holder(inflater.inflate(R.layout.row_repo, parent, false))
@@ -53,10 +54,11 @@ class ReposAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<ReposAda
         }
     }
 
-    fun addAll(repos: Collection<TravisRepo>?) {
+    fun addAll(repos: List<TravisRepo>?) {
         if (repos != null) {
-            this.repos.addAll(repos)
-            notifyDataSetChanged()
+            val calculateDiff = DiffUtil.calculateDiff(ReposDiffUtils(this.repos, repos), true)
+            this.repos = repos.toMutableList()
+            calculateDiff.dispatchUpdatesTo(this)
         }
     }
 

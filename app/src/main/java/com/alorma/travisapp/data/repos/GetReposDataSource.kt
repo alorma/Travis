@@ -1,16 +1,10 @@
 package com.alorma.travisapp.data.repos
 
-import com.alorma.travisapp.data.network.TravisEndpoints
 import io.reactivex.Observable
-import javax.inject.Inject
 
-class GetReposDataSource @Inject constructor(val travisEndpoints: TravisEndpoints) {
+interface GetReposDataSource {
+    fun getRepos(reposSearch: ReposSearch): Observable<List<TravisRepo>>
+    fun populate(list: List<TravisRepo>) {
 
-    fun getRepos(reposSearch: ReposSearch): Observable<TravisRepo> {
-        return travisEndpoints.getRepos(reposSearch.key)
-                .flatMapObservable {
-                    Observable.fromIterable(it.repos)
-                }
     }
-
 }
