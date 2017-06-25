@@ -4,6 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import com.alorma.travisapp.data.builds.ApiTravisRepoBuild
 import com.alorma.travisapp.data.builds.GetRepoBuildUseCase
 import com.alorma.travisapp.data.builds.TravisRepoBuild
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -21,7 +22,7 @@ class RepoBuildsDataViewModel(app: Application) : AndroidViewModel(app) {
 
     val composite: CompositeDisposable = CompositeDisposable()
 
-    fun loadBuild(slug: String): LiveData<List<TravisRepoBuild>> {
+    fun loadBuilds(slug: String): LiveData<List<TravisRepoBuild>> {
         if (travisBuildsLiveData.value == null) {
             travisBuildsLiveData = MutableLiveData()
             getData(slug)

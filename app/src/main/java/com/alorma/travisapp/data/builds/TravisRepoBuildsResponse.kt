@@ -1,5 +1,3 @@
-package com.alorma.travisapp.data.repos
+package com.alorma.travisapp.data.builds
 
-import com.alorma.travisapp.data.builds.TravisRepoBuild
-
-class TravisRepoBuildsResponse(val builds: List<TravisRepoBuild>)
+class TravisRepoBuildsResponse(val builds: List<ApiTravisRepoBuild>, val commits: List<TravisCommit>)

@@ -3,13 +3,16 @@ package com.alorma.travisapp.ui.activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.widget.Toast
+import android.support.v7.widget.LinearLayoutManager
+import android.view.LayoutInflater
 import com.alorma.travisapp.R
 import com.alorma.travisapp.dagger.component.DaggerRepoBuildsActivityComponent
 import com.alorma.travisapp.dagger.component.RepoBuildsActivityComponent
+import com.alorma.travisapp.data.builds.ApiTravisRepoBuild
 import com.alorma.travisapp.data.builds.TravisRepoBuild
 import com.alorma.travisapp.data.extension.appComponent
 import com.alorma.travisapp.data.viewmodel.RepoBuildsDataViewModel
+import com.alorma.travisapp.ui.adapter.RepoBuildsAdapter
 import kotlinx.android.synthetic.main.activity_repo_builds.*
 
 class RepoBuildActivity : BaseActivity() {
@@ -18,6 +21,10 @@ class RepoBuildActivity : BaseActivity() {
         DaggerRepoBuildsActivityComponent.builder()
                 .applicationComponent(appComponent())
                 .build()
+    }
+
+    val adapter: RepoBuildsAdapter by lazy {
+        RepoBuildsAdapter(LayoutInflater.from(this))
     }
 
     val viewModel: RepoBuildsDataViewModel by lazy {
@@ -35,7 +42,8 @@ class RepoBuildActivity : BaseActivity() {
 
             toolbar.title = repoSlug
 
-            viewModel.loadBuild(repoSlug).observe(this, Observer {
+            setupRecyclerView()
+            viewModel.loadBuilds(repoSlug).observe(this, Observer {
                 if (it != null) {
                     showResult(it)
                 }
@@ -43,9 +51,13 @@ class RepoBuildActivity : BaseActivity() {
         }
     }
 
+    fun setupRecyclerView() {
+        recyclerRepoBuilds.layoutManager = LinearLayoutManager(this)
+        recyclerRepoBuilds.adapter = adapter
+    }
+
     private fun showResult(it: List<TravisRepoBuild>) {
-        val elements = it.size
-        Toast.makeText(this, "Elements: $elements", Toast.LENGTH_LONG).show()
+        adapter.addAll(it)
     }
 
     object Extras {

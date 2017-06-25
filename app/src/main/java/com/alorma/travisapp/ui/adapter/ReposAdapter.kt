@@ -32,7 +32,7 @@ class ReposAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<ReposAda
     }
 
     class Holder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textRepoName: TextView? = itemView.textRepoName
+        val textRepoName: TextView? = itemView.buildInfo
         val textRepoLastBuildState: TextView? = itemView.textRepoLastBuildState
         val textRepoIsActive: Switch? = itemView.textRepoIsActive
 

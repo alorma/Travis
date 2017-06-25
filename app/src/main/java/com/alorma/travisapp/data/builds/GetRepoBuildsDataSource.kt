@@ -7,6 +7,12 @@ import javax.inject.Inject
 class GetRepoBuildsDataSource @Inject constructor(val travisEndpoints: TravisEndpoints) {
 
     fun loadRepoBuilds(slug: String): Observable<TravisRepoBuild> {
-        return travisEndpoints.getRepoBuilds(slug).flatMapObservable { Observable.fromIterable(it.builds) }
+        return travisEndpoints.getRepoBuilds(slug).flatMapObservable {
+            val commitsMap = it.commits.associateBy({ it.id }, { it })
+
+            Observable.fromIterable(it.builds.map {
+                TravisRepoBuild(it.id, it, commitsMap[it.commitId])
+            })
+        }
     }
 }
