@@ -4,7 +4,7 @@ import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.alorma.travisapp.data.builds.ApiTravisRepoBuild
+import com.alorma.travisapp.dagger.component.RepoBuildsComponent
 import com.alorma.travisapp.data.builds.GetRepoBuildUseCase
 import com.alorma.travisapp.data.builds.TravisRepoBuild
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,13 +13,15 @@ import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 
-class RepoBuildsDataViewModel(app: Application) : AndroidViewModel(app) {
+class RepoBuildsDataViewModel(val app: Application)
+    : AndroidViewModel(app), RepoBuildsComponent.Injectable {
 
+    override fun inject(component: RepoBuildsComponent) {
+        component.inject(this)
+    }
+
+    @Inject lateinit var getRepoBuild: GetRepoBuildUseCase
     var travisBuildsLiveData: MutableLiveData<List<TravisRepoBuild>> = MutableLiveData()
-
-    @Inject
-    lateinit var getRepoBuild: GetRepoBuildUseCase
-
     val composite: CompositeDisposable = CompositeDisposable()
 
     fun loadBuilds(slug: String): LiveData<List<TravisRepoBuild>> {
@@ -52,5 +54,4 @@ class RepoBuildsDataViewModel(app: Application) : AndroidViewModel(app) {
         composite.clear()
         super.onCleared()
     }
-
 }
