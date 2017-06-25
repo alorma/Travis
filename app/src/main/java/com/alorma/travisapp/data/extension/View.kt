@@ -1,7 +1,6 @@
-package com.alorma.travisapp.ui
+package com.alorma.travisapp.data.extension
 
 import android.view.View
-
 
 fun View.visible() {
     visibility = View.VISIBLE

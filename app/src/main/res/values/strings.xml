@@ -1,3 +1,4 @@
 <resources>
   <string name="app_name">Travis App</string>
+  <string name="build_pr_title">"[$number] $title"</string>
 </resources>

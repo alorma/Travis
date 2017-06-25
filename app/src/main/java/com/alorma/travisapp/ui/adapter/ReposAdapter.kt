@@ -8,8 +8,8 @@ import android.widget.Switch
 import android.widget.TextView
 import com.alorma.travisapp.R
 import com.alorma.travisapp.data.repos.TravisRepo
-import com.alorma.travisapp.ui.gone
-import com.alorma.travisapp.ui.visible
+import com.alorma.travisapp.data.extension.gone
+import com.alorma.travisapp.data.extension.visible
 import kotlinx.android.synthetic.main.row_repo.view.*
 
 class ReposAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<ReposAdapter.Holder>() {
