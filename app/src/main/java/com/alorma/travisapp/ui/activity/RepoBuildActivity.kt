@@ -8,10 +8,10 @@ import android.view.LayoutInflater
 import com.alorma.travisapp.R
 import com.alorma.travisapp.dagger.component.DaggerRepoBuildsActivityComponent
 import com.alorma.travisapp.dagger.component.RepoBuildsActivityComponent
-import com.alorma.travisapp.data.builds.ApiTravisRepoBuild
 import com.alorma.travisapp.data.builds.TravisRepoBuild
 import com.alorma.travisapp.data.extension.appComponent
 import com.alorma.travisapp.data.viewmodel.RepoBuildsDataViewModel
+import com.alorma.travisapp.ui.DummyStateColorMapper
 import com.alorma.travisapp.ui.adapter.RepoBuildsAdapter
 import kotlinx.android.synthetic.main.activity_repo_builds.*
 
@@ -24,7 +24,7 @@ class RepoBuildActivity : BaseActivity() {
     }
 
     val adapter: RepoBuildsAdapter by lazy {
-        RepoBuildsAdapter(LayoutInflater.from(this))
+        RepoBuildsAdapter(LayoutInflater.from(this), DummyStateColorMapper())
     }
 
     val viewModel: RepoBuildsDataViewModel by lazy {

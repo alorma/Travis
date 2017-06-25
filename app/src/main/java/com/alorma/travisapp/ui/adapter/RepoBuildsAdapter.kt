@@ -1,7 +1,5 @@
 package com.alorma.travisapp.ui.adapter
 
-import android.graphics.Color
-import android.support.annotation.ColorRes
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -13,13 +11,15 @@ import android.widget.TextView
 import com.alorma.travisapp.R
 import com.alorma.travisapp.data.builds.ApiTravisRepoBuild
 import com.alorma.travisapp.data.builds.TravisRepoBuild
-import com.alorma.travisapp.ui.StateColor
+import com.alorma.travisapp.ui.BuildStateColorMapper
+import com.alorma.travisapp.ui.StateColorMapper
 import com.alorma.travisapp.ui.gone
 import com.alorma.travisapp.ui.visible
 import kotlinx.android.synthetic.main.row_repo_build.view.*
 
 
-class RepoBuildsAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<RepoBuildsAdapter.Holder>() {
+class RepoBuildsAdapter(val inflater: LayoutInflater, val stateColorMapper: StateColorMapper)
+    : RecyclerView.Adapter<RepoBuildsAdapter.Holder>() {
 
     var callback: Callback? = null
         set
@@ -32,7 +32,7 @@ class RepoBuildsAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<Rep
 
     override fun onBindViewHolder(holder: Holder?, position: Int) {
         val repoBuild = builds[position]
-        holder?.populate(repoBuild, callback)
+        holder?.populate(repoBuild, callback, stateColorMapper)
     }
 
     override fun getItemCount(): Int {
@@ -46,7 +46,7 @@ class RepoBuildsAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<Rep
         val prIcon: ImageView? = itemView.prIcon
         val prInfo: TextView? = itemView.prInfo
 
-        fun populate(repoBuild: TravisRepoBuild, callback: Callback?) {
+        fun populate(repoBuild: TravisRepoBuild, callback: Callback?, stateColorMapper: StateColorMapper) {
             val buildNumber = repoBuild.build.number
 
             val commit = repoBuild.commit
@@ -69,7 +69,7 @@ class RepoBuildsAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<Rep
                 layoutPrInfo?.gone()
             }
 
-            val colorFromBuild = getColorFromBuild(repoBuild.build)
+            val colorFromBuild = stateColorMapper.map(BuildStateColorMapper.fromState(repoBuild.build.state))
 
             val drawable = prIcon?.drawable?.mutate()
             if (drawable != null) {
@@ -82,19 +82,6 @@ class RepoBuildsAdapter(val inflater: LayoutInflater) : RecyclerView.Adapter<Rep
             itemView.setOnClickListener({
                 callback?.repoBuildSelected(repoBuild.build)
             })
-        }
-
-        fun getColorFromBuild(build: ApiTravisRepoBuild): Int {
-            val stateColor = StateColor.fromState(build.state)
-
-            @ColorRes val color: Int
-            when (stateColor) {
-                StateColor.GREEN -> color = Color.parseColor("#00FF00")
-                StateColor.YELLOW -> color = Color.parseColor("#FFFF00")
-                StateColor.RED -> color = Color.parseColor("#FF0000")
-                else -> color = Color.parseColor("#666666")
-            }
-            return color
         }
     }
 
