@@ -1,10 +1,10 @@
 package com.alorma.travisapp.ui.activity
 
-import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.widget.Toast
 import com.alorma.travisapp.R
 import com.alorma.travisapp.dagger.component.DaggerMainActivityComponent
 import com.alorma.travisapp.dagger.component.MainActivityComponent
@@ -42,19 +42,23 @@ class MainActivity : BaseActivity(), ReposAdapter.Callback {
     }
 
     private fun setupData() {
-        viewModel.getTravisAccount().observe(this, Observer {
-            if (it != null) {
-                setAccount(it)
-            }
+        val accountLiveData = viewModel.getTravisAccount()
+        val travisReposLiveData = viewModel.getTravisRepos()
+
+        accountLiveData.observeSuccess(this, {
+            setAccount(it)
         })
 
-        viewModel.getTravisRepos().observe(this, Observer {
+        travisReposLiveData.observeSuccess(this, {
             adapter.addAll(it)
         })
 
-        viewModel.getErrorData().observe(this, Observer {
+        accountLiveData.observeError(this, {onError(it)})
+        travisReposLiveData.observeError(this, {onError(it)})
+    }
 
-        })
+    fun onError(t: Throwable) {
+        Toast.makeText(this, "Show error: " + t.message, Toast.LENGTH_SHORT).show()
     }
 
     private fun setAccount(it: TravisAccount) {

@@ -9,6 +9,7 @@ open class GetAccountReposUseCase @Inject constructor(
     fun getRepos(login: String): Single<List<TravisRepo>> {
         return getReposDataSource.getRepos(ReposSearch(login))
                 .toList()
+                .map { it.sortedWith(compareByDescending<TravisRepo>({ it.active })) }
     }
 
 }

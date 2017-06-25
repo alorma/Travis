@@ -7,7 +7,10 @@ import javax.inject.Inject
 class GetReposDataSource @Inject constructor(val travisEndpoints: TravisEndpoints) {
 
     fun getRepos(reposSearch: ReposSearch): Observable<TravisRepo> {
-        return travisEndpoints.getRepos(reposSearch.key).flatMapObservable { Observable.fromIterable(it.repos) }
+        return travisEndpoints.getRepos(reposSearch.key)
+                .flatMapObservable {
+                    Observable.fromIterable(it.repos)
+                }
     }
 
 }

@@ -23,7 +23,8 @@ android {
   }
 
   packagingOptions {
-    exclude  'META-INF/LICENSE'
+    exclude 'META-INF/LICENSE'
+    exclude 'Lorg/intellij/lang/annotations/Identifier'
   }
 }
 
@@ -45,12 +46,15 @@ dependencies {
   implementation "io.reactivex.rxjava2:rxjava:${rxJava}"
   implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
 
-  testImplementation  'junit:junit:4.12'
-  testImplementation  'org.assertj:assertj-core:3.8.0'
+  def funktionale = '1.1'
+  implementation "org.funktionale:funktionale-either:${funktionale}"
 
-  testImplementation  "org.mockito:mockito-core:2.8.9"
-  androidTestImplementation  "org.mockito:mockito-android:2.8.9"
-  testImplementation  ("com.nhaarman:mockito-kotlin:1.5.0") {
+  testImplementation 'junit:junit:4.12'
+  testImplementation 'org.assertj:assertj-core:3.8.0'
+
+  testImplementation "org.mockito:mockito-core:2.8.9"
+  androidTestImplementation "org.mockito:mockito-android:2.8.9"
+  testImplementation("com.nhaarman:mockito-kotlin:1.5.0") {
     exclude group: 'org.jetbrains.kotlin'
   }
 
@@ -68,19 +72,19 @@ dependencies {
   releaseCompile "com.readystatesoftware.chuck:library-no-op:${chuck}"
 
   //WireMock
-  androidTestImplementation ("com.github.tomakehurst:wiremock:2.5.0") {
+  androidTestImplementation("com.github.tomakehurst:wiremock:2.5.0") {
     exclude group: 'org.apache.httpcomponents', module: 'httpclient'
     exclude group: 'org.ow2.asm', module: 'asm'
     exclude group: 'org.json', module: 'json'
   }
-  androidTestImplementation  'org.apache.httpcomponents:httpclient-android:4.3.5.1'
+  androidTestImplementation 'org.apache.httpcomponents:httpclient-android:4.3.5.1'
 
-  androidTestImplementation  'com.github.fabioCollini:DaggerMock:0.6.6'
-  androidTestImplementation ('com.schibsted.spain:barista:1.3.0') {
+  androidTestImplementation 'com.github.fabioCollini:DaggerMock:0.6.6'
+  androidTestImplementation('com.schibsted.spain:barista:1.3.0') {
     exclude group: 'com.android.support'
   }
 
-  androidTestImplementation ('com.android.support.test.espresso:espresso-core:2.2.2', {
+  androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
     exclude group: 'com.android.support', module: 'support-annotations'
   })
 

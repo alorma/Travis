@@ -7,7 +7,14 @@ class TravisRepo(val id: Int,
                  val description: String,
                  val active: Boolean,
                  @SerializedName("last_build_number") val lastBuildNumber: String,
-                 @SerializedName("last_build_state") val lastBuildState: String)
+                 @SerializedName("last_build_finished_at") val lastBuildFinished: String?,
+                 @SerializedName("last_build_state") val lastBuildState: String) {
+
+    fun isRunning(): Boolean {
+        return lastBuildFinished == null
+    }
+
+}
     /*
     "id": 82,
     "slug": "sinatra/sinatra",

@@ -2,12 +2,12 @@ package com.alorma.travisapp.data.viewmodel
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import com.alorma.travisapp.data.account.GetAccountDataUseCase
 import com.alorma.travisapp.data.account.TravisAccount
+import com.alorma.travisapp.data.live.EitherLiveData
 import com.alorma.travisapp.data.repos.GetAccountReposUseCase
 import com.alorma.travisapp.data.repos.TravisRepo
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -23,33 +23,28 @@ class TravisBasicDataViewModel(app: Application) : AndroidViewModel(app) {
 
     val composite: CompositeDisposable = CompositeDisposable()
 
-    var accountData: MutableLiveData<TravisAccount> = MutableLiveData()
-    var errorData: MutableLiveData<Throwable> = MutableLiveData()
-    val reposData: MutableLiveData<List<TravisRepo>> = MutableLiveData()
+    var accountData: EitherLiveData<TravisAccount> = EitherLiveData()
+    val reposData: EitherLiveData<List<TravisRepo>> = EitherLiveData()
 
-    fun getTravisAccount(): LiveData<TravisAccount> {
+    fun getTravisAccount(): EitherLiveData<TravisAccount> {
         if (accountData.value == null) {
             val disposable = accountDataUseCase.getAccount()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe({ account -> onAccountLoaded(account) },
-                            { t: Throwable? -> onError(t) })
+                            { t -> accountData.post(t) })
 
             composite.add(disposable)
         }
-        return accountData;
+        return accountData
     }
 
-    fun getTravisRepos(): LiveData<List<TravisRepo>> {
+    fun getTravisRepos(): EitherLiveData<List<TravisRepo>> {
         return reposData
     }
 
-    fun getErrorData(): LiveData<Throwable> {
-        return errorData
-    }
-
     fun onAccountLoaded(travisAccount: TravisAccount) {
-        accountData.postValue(travisAccount)
+        accountData.post(travisAccount)
 
         loadRepos(travisAccount.login)
     }
@@ -58,18 +53,9 @@ class TravisBasicDataViewModel(app: Application) : AndroidViewModel(app) {
         val disposable = accountRepoUseCase.getRepos(login)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t -> onReposLoaded(t) }, { t -> onError(t) })
+                .subscribe({ reposData.post(it) }, { t -> reposData.post(t) })
 
         composite.add(disposable)
-    }
-
-    private fun onReposLoaded(list: List<TravisRepo>) {
-        val listSorted = list.sortedWith(compareByDescending<TravisRepo>({ it.active }))
-        reposData.postValue(listSorted)
-    }
-
-    private fun onError(t: Throwable?) {
-        errorData.postValue(t)
     }
 
     override fun onCleared() {
