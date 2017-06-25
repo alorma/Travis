@@ -11,10 +11,10 @@ interface StateColorMapper {
 class DummyStateColorMapper : StateColorMapper {
     override fun map(stateColor: StateColor): Int {
         when (stateColor) {
-            StateColor.GREEN -> return Color.parseColor("#00FF00")
-            StateColor.YELLOW -> return Color.parseColor("#FFFF00")
-            StateColor.RED -> return Color.parseColor("#FF0000")
-            else -> return Color.parseColor("#666666")
+            StateColor.GREEN -> return Color.parseColor("#B2DFDB")
+            StateColor.YELLOW -> return Color.parseColor("#F0F4C3")
+            StateColor.RED -> return Color.parseColor("#FFCDD2")
+            else -> return Color.parseColor("#E0E0E0")
         }
     }
 
