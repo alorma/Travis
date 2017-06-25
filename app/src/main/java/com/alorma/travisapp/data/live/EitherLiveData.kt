@@ -7,8 +7,17 @@ import org.funktionale.either.Either
 
 class EitherLiveData<T> : LiveData<Either<Throwable, T>>() {
 
-    override fun observe(owner: LifecycleOwner?, observer: Observer<Either<Throwable, T>>?) {
-        super.observe(owner, observer)
+    fun observe(owner: LifecycleOwner?,
+                successFunction: (t: T) -> Unit?,
+                errorFunction: (t: Throwable) -> Unit?) {
+        observe(owner, Observer {
+            when (it) {
+                is Either.Right -> successFunction.invoke(it.right().get())
+                is Either.Left -> errorFunction.invoke(it.left().get())
+                else -> {
+                }
+            }
+        })
     }
 
     fun observeSuccess(owner: LifecycleOwner, observeFunction: (t: T) -> Unit?) {

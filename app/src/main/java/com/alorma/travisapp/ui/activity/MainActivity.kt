@@ -42,19 +42,13 @@ class MainActivity : BaseActivity(), ReposAdapter.Callback {
     }
 
     private fun setupData() {
-        val accountLiveData = viewModel.getTravisAccount()
-        val travisReposLiveData = viewModel.getTravisRepos()
-
-        accountLiveData.observeSuccess(this, {
+        viewModel.getTravisAccount().observe(this, {
             setAccount(it)
-        })
+        }, { onError(it) })
 
-        travisReposLiveData.observeSuccess(this, {
+        viewModel.getTravisRepos().observe(this, {
             adapter.addAll(it)
-        })
-
-        accountLiveData.observeError(this, {onError(it)})
-        travisReposLiveData.observeError(this, {onError(it)})
+        }, { onError(it) })
     }
 
     fun onError(t: Throwable) {

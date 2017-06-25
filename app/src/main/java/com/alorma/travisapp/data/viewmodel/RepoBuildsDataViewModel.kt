@@ -2,11 +2,10 @@ package com.alorma.travisapp.data.viewmodel
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
 import com.alorma.travisapp.dagger.component.RepoBuildsComponent
 import com.alorma.travisapp.data.builds.GetRepoBuildUseCase
 import com.alorma.travisapp.data.builds.TravisRepoBuild
+import com.alorma.travisapp.data.live.EitherLiveData
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -21,12 +20,11 @@ class RepoBuildsDataViewModel(val app: Application)
     }
 
     @Inject lateinit var getRepoBuild: GetRepoBuildUseCase
-    var travisBuildsLiveData: MutableLiveData<List<TravisRepoBuild>> = MutableLiveData()
+    var travisBuildsLiveData: EitherLiveData<List<TravisRepoBuild>> = EitherLiveData()
     val composite: CompositeDisposable = CompositeDisposable()
 
-    fun loadBuilds(slug: String): LiveData<List<TravisRepoBuild>> {
+    fun loadBuilds(slug: String): EitherLiveData<List<TravisRepoBuild>> {
         if (travisBuildsLiveData.value == null) {
-            travisBuildsLiveData = MutableLiveData()
             getData(slug)
         }
 
@@ -37,17 +35,9 @@ class RepoBuildsDataViewModel(val app: Application)
         val disposable = getRepoBuild.loadRepoBuilds(slug)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({ t -> onBuildsLoaded(t) }, { t -> onError(t) })
+                .subscribe({ travisBuildsLiveData.post(it) }, { travisBuildsLiveData.post(it) })
 
         composite.add(disposable)
-    }
-
-    private fun onBuildsLoaded(t: List<TravisRepoBuild>) {
-        travisBuildsLiveData.postValue(t)
-    }
-
-    private fun onError(t: Throwable?) {
-
     }
 
     override fun onCleared() {

@@ -1,9 +1,9 @@
 package com.alorma.travisapp.ui.activity
 
-import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
+import android.widget.Toast
 import com.alorma.travisapp.R
 import com.alorma.travisapp.dagger.component.DaggerRepoBuildsComponent
 import com.alorma.travisapp.dagger.component.RepoBuildsComponent
@@ -49,12 +49,14 @@ class RepoBuildActivity : BaseActivity() {
             toolbar.title = repoSlug
 
             setupRecyclerView()
-            viewModel.loadBuilds(repoSlug).observe(this, Observer {
-                if (it != null) {
-                    showResult(it)
-                }
-            })
+
+            val liveData = viewModel.loadBuilds(repoSlug)
+            liveData.observe(this, { showResult(it) }, { showError(it) })
         }
+    }
+
+    fun  showError(t: Throwable) {
+        Toast.makeText(this, "Error loading builds: " + t.message, Toast.LENGTH_SHORT).show()
     }
 
     fun setupRecyclerView() {
